@@ -3,3 +3,8 @@ venv/
 
 .env
 env/
+
+dataset/
+*.csv
+*.zip
+*.jsonl
