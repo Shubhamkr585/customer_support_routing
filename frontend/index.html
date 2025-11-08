@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Support Ticket Classifier</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f8fafc;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #2563eb;
+      font-size: 28px;
+    }
+    textarea {
+      width: 60%;
+      height: 120px;
+      margin-top: 20px;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #1e40af;
+    }
+    .output {
+      margin-top: 25px;
+      font-size: 20px;
+      color: #111;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <h1>Customer Support Ticket Routing</h1>
+  <p>Type a complaint or support query below 👇</p>
+  <textarea id="userText" placeholder="e.g. My payment was charged twice 😕"></textarea><br>
+  <button onclick="predict()">Predict Department</button>
+  <div class="output" id="output"></div>
+
+  <script>
+    async function predict() {
+      const text = document.getElementById("userText").value;
+      if (!text.trim()) {
+        alert("Please enter a message!");
+        return;
+      }
+
+      const response = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+
+      const data = await response.json();
+      document.getElementById("output").innerHTML =
+        `Predicted Department: <b style="color:#2563eb;">${data.department}</b>`;
+    }
+  </script>
+</body>
+</html>
